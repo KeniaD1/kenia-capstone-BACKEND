@@ -9,7 +9,7 @@ const { getAllMessages, getOneMessage, createMessage, updateMessage, deleteMessa
 
 messages.get('/', async (req, res) => {
     const allMessages = await getAllMessages()
-    console.log(allMessages)
+    // console.log(allMessages)
     if (allMessages[0]) {
         res.status(200).json(allMessages);
     } else {

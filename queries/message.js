@@ -25,7 +25,7 @@ const getOneMessage = async (messageId) => {
 //post message 
 const createMessage = async (valueObj) => {
     try {
-        const newMessage = await db.one('INSERT INTO messages (name,post_date,post_time,posted_message) VALUES ($1,$2,$3,$4) RETURNING *', [valueObj.name, valueObj.post_date, valueObj.post_time, valueObj.posted_message])
+        const newMessage = await db.one('INSERT INTO messages (name,posted_message,class) VALUES ($1,$2,$3) RETURNING *', [valueObj.name, valueObj.posted_message, valueObj.class])
         return newMessage
     } catch (error) {
         return error
@@ -37,8 +37,8 @@ const createMessage = async (valueObj) => {
 const updateMessage = async (messageId, body) => {
 
     try {
-        const updatedMessage = await db.one('UPDATE messages SET name=$1,post_date=$2,post_time=$3,posted_message=$4 WHERE id=$6 RETURNING *', [body.name,body.post_date,body.post_time,body.posted_message, messageId] )
-        return updateMessage
+        const updatedMessage = await db.one('UPDATE messages SET name=$1,posted_message=$2 WHERE id=$3 RETURNING *', [body.name, body.posted_message, messageId])
+        return updatedMessage
     } catch (error) {
         return error
 
@@ -54,7 +54,7 @@ const deleteMessage = async (messageId) => {
         return deletedMessage
     } catch (error) {
         return error
-        
+
     }
 }
 
