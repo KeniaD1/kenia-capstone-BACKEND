@@ -4,18 +4,39 @@ const messages = express.Router()
 
 const { getAllMessages, getOneMessage, createMessage, updateMessage, deleteMessage } = require('../queries/message')
 
+const { convertTime } = require("../middleware/convertTime")
+
 
 //get all
-
 messages.get('/', async (req, res) => {
+    try{
     const allMessages = await getAllMessages()
-    // console.log(allMessages)
-    if (allMessages[0]) {
-        res.status(200).json(allMessages);
-    } else {
-        res.status(500).json({ error: "error" })
-    }
-})
+    const convertedMessages = allMessages.map(message => {
+
+        const dateObj = convertTime(message.post_date, message.post_time);
+        console.log(dateObj)
+
+    const convertedObj = {...message , ...dateObj}
+    return convertedObj
+   
+    })
+    res.status(200).json(convertedMessages);
+    // res.status(200).json(allMessages);
+   
+       
+    } catch (error) {
+        res.status(500).json({ error: error });
+    }})
+
+
+//     //loop
+//     // console.log(allMessages)
+//     if (allMessages[0]) {
+//         res.status(200).json(allMessages);
+//     } else {
+//         res.status(500).json({ error: "error" })
+//     }
+// })
 
 //get one 
 
@@ -23,7 +44,8 @@ messages.get('/:messageID', async (req, res) => {
     const messageID = req.params.messageID
     if (Number(messageID)) {
         const oneMessage = await getOneMessage(messageID)
-        res.status(200).json(oneMessage)
+        const dateObj = convertTime(oneMessage.post_date, oneMessage.post_time)
+        res.status(200).json({ ...oneMessage, ...dateObj })
     } else {
         res.status(404).json({ error: "id must be numeric" })
     }
@@ -81,4 +103,5 @@ messages.delete("/:messageID", async (req, res) => {
     }
 })
 
-module.exports = messages
+module.exports = messages;
+

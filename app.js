@@ -3,11 +3,15 @@ const app = express()
 const cors = require("cors")
 
 const messageController = require('./controllers/messageController')
+
+const messages = require("./controllers/messageController");
+
 //middleware 
 
 app.use(express.json())
 app.use(cors())
 app.use("/messages", messageController)
+
 
 
 
@@ -29,4 +33,4 @@ app.get("*", (req, res) => {
 
 
 
-module.exports = app
+module.exports = app;

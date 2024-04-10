@@ -12,3 +12,4 @@ CREATE TABLE messages (
     posted_message TEXT NOT NULL,
     class VARCHAR(50) NOT NULL
 );
+
