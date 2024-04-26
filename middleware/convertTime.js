@@ -10,7 +10,7 @@
 function convertTime(post_date, post_time) {
 
 
-   
+
 
 
     // console.log(currentDate.toLocaleString)
@@ -25,12 +25,12 @@ function convertTime(post_date, post_time) {
     // const formattedDateString = `${sliceDate}T${sliceTime}Z`;
 
     // console.log(formattedDateString)
-    
+
     const year = new Date().getFullYear()
-    //  const time = sliceTime.toLocaleString('en-US')
+    //  const time = post_time.toLocaleString('en-US')
     //  console.log(time)
     const convertedDate = `${sliceDate[0]} ${sliceDate[1]} ${sliceDate[2]} ${year}`
-// console.log(time , year)
+    // console.log(time , year)
 
     const dateObj = {
         post_date: convertedDate,

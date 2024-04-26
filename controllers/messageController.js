@@ -2,7 +2,7 @@ const express = require('express')
 
 const messages = express.Router()
 
-const { getAllMessages, getOneMessage, createMessage, updateMessage, deleteMessage } = require('../queries/message')
+const { getAllMessages, getOneMessage, createMessage, updateMessage, deleteMessage , createComment} = require('../queries/message')
 
 const { convertTime } = require("../middleware/convertTime")
 
@@ -29,14 +29,6 @@ messages.get('/', async (req, res) => {
     }})
 
 
-//     //loop
-//     // console.log(allMessages)
-//     if (allMessages[0]) {
-//         res.status(200).json(allMessages);
-//     } else {
-//         res.status(500).json({ error: "error" })
-//     }
-// })
 
 //get one 
 
@@ -51,6 +43,24 @@ messages.get('/:messageID', async (req, res) => {
     }
 })
 
+//POST request to add a comment to a message
+messages.post('/:messageID/comments', async (req, res) => {
+    const messageID = req.params.messageID;
+    const { user_name, comment_text } = req.body;
+
+    try {
+        // Create the comment associated with the message ID
+        const newComment = await createComment(messageID, { user_name, comment_text });
+        
+        if (newComment.id) {
+            res.status(200).json(newComment);
+        } else {
+            res.status(500).json({ error: 'Failed to add comment' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 //post message 
 
 messages.post('/', async (req, res) => {
